@@ -1,0 +1,8 @@
+requests 
+beautifulsoup4
+selenium
+sqlalchemy
+jinja2
+Flask
+pandas
+schedule
