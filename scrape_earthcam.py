@@ -1,3 +1,7 @@
+import sys
+import os
+import time
+import concurrent.futures
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -5,8 +9,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
-import concurrent.futures
 from jinja2 import Environment, FileSystemLoader 
 
 # Function to initialize WebDriver
@@ -108,8 +110,13 @@ def scrape_likes_and_views(feed):
 
 # Function to generate HTML using Jinja2
 def generate_html(feeds_data, template_file='template.html', output_file='earthcam_feeds.html'):
-  env = Environment(loader=FileSystemLoader('.'))
-  template = env.get_template(template_file)
+  if hasattr(sys, '_MEIPASS'):
+    template_dir = os.path.join(sys._MEIPASS, os.path.dirname(template_file))
+  else:
+    template_dir = os.path.dirname(template_file)
+
+  env = Environment(loader=FileSystemLoader(template_dir))
+  template = env.get_template(os.path.basename(template_file))
   rendered_html = template.render(feeds=feeds_data)
   with open(output_file, 'w') as file:
     file.write(rendered_html)
