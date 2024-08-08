@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EarthCam Feeds</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+      .feed-container {
+        width: 22%;
+        background-color: #fff;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+      }
+      .feed-title {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      .feed-thumbnail {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+      }
+      .feed-details {
+        margin-top: 10px;
+      }
+      .feed-status {
+        color: green;
+        font-weight: bold;
+      }
+      .feed-url {
+        margin-top: 10px;
+      }
+      .feed-url a {
+        color: #007bff;
+        text-decoration: none;
+        word-wrap: break-word;
+      }
+      .feed-url a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>EarthCam Feeds</h1>
+
+    <div class="container">
+      {% for feed in feeds %}
+      <div class="feed-container">
+        <img
+          class="feed-thumbnail"
+          src="{{ feed.thumbnail_url }}"
+          alt="{{ feed.feed_title }}"
+        />
+        <div class="feed-details">
+          <div class="feed-title">{{ feed.feed_title }}</div>
+          <div>Location: {{ feed.location }}</div>
+          <div>Views: {{ feed.views }}</div>
+          <div>Likes: {{ feed.likes }}</div>
+          <div>Status: <span class="feed-status">Active</span></div>
+          <div class="feed-url">
+            <a href="{{ feed.feed_url }}" target="_blank">View Feed</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
