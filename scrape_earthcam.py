@@ -110,6 +110,12 @@ def scrape_likes_and_views(feed):
 
 # Function to generate HTML using Jinja2
 def generate_html(feeds_data, template_file='template.html', output_file='earthcam_feeds.html'):
+  # Get the directory of the current script
+  script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+  # Set the output file to be saved in the same directory as the script
+  output_file_path = os.path.join(script_dir, output_file)
+    
   if hasattr(sys, '_MEIPASS'):
     template_dir = os.path.join(sys._MEIPASS, os.path.dirname(template_file))
   else:
@@ -118,9 +124,11 @@ def generate_html(feeds_data, template_file='template.html', output_file='earthc
   env = Environment(loader=FileSystemLoader(template_dir))
   template = env.get_template(os.path.basename(template_file))
   rendered_html = template.render(feeds=feeds_data)
-  with open(output_file, 'w') as file:
+    
+  with open(output_file_path, 'w') as file:
     file.write(rendered_html)
-  print(f"HTML file generated: {output_file}")
+  print(f"HTML file generated: {output_file_path}")
+
 
 def main():
   driver = init_driver()
