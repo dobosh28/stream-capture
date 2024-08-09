@@ -110,12 +110,18 @@ def scrape_likes_and_views(feed):
 
 # Function to generate HTML using Jinja2
 def generate_html(feeds_data, template_file='template.html', output_file='earthcam_feeds.html'):
-  # Get the directory of the current script
-  script_dir = os.path.dirname(os.path.abspath(__file__))
+  # Determine the base path where the executable or script is located
+  if hasattr(sys, '_MEIPASS'):
+     # If running as an executable, base path is where the executable is located
+    base_path = os.path.dirname(sys.executable)
+  else:
+    # If running as a script, base path is where the script is located
+    base_path = os.path.dirname(os.path.abspath(__file__))
     
-  # Set the output file to be saved in the same directory as the script
-  output_file_path = os.path.join(script_dir, output_file)
+  # Set the output file to be saved in the same directory as the executable or script
+  output_file_path = os.path.join(base_path, output_file)
     
+  # Determine the template directory
   if hasattr(sys, '_MEIPASS'):
     template_dir = os.path.join(sys._MEIPASS, os.path.dirname(template_file))
   else:
@@ -129,7 +135,6 @@ def generate_html(feeds_data, template_file='template.html', output_file='earthc
     file.write(rendered_html)
   print(f"HTML file generated: {output_file_path}")
 
-
 def main():
   driver = init_driver()
   driver.get('https://www.earthcam.com/')
@@ -140,7 +145,7 @@ def main():
   with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
     feeds_data = list(executor.map(scrape_likes_and_views, feeds_data))
   executor.shutdown(wait=True)
-  
+
   generate_html(feeds_data)
 
   # for feed in feeds_data:
@@ -150,3 +155,4 @@ def main():
 
 if __name__ == "__main__":
   main()
+  sys.exit(0)
