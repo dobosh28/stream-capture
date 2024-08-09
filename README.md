@@ -11,7 +11,6 @@ stream-capture/
 ├── dist/
 │   └── scrape_earthcam (or scrape_earthcam.exe on Windows)
 ├── template.html
-├── scrape_earthcam.spec
 ├── scrape_earthcam.py
 ├── README.md
 └── requirements.txt
