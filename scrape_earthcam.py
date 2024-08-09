@@ -139,7 +139,8 @@ def main():
   # Use ThreadPoolExecutor to parallelize the scraping of likes and views
   with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
     feeds_data = list(executor.map(scrape_likes_and_views, feeds_data))
-
+  executor.shutdown(wait=True)
+  
   generate_html(feeds_data)
 
   # for feed in feeds_data:
